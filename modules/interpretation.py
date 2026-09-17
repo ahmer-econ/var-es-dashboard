@@ -1,8 +1,4 @@
-import os
-os.chdir(r"D:\Documents\APPLIED ECONOMETRICS WORK\VaR-ES-Dashboard")
-
 import pandas as pd
-
 
 def generate_interpretation(
     ticker: str,

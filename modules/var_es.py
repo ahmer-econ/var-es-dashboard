@@ -1,6 +1,3 @@
-import os
-os.chdir(r"D:\Documents\APPLIED ECONOMETRICS WORK\VaR-ES-Dashboard")
-
 import numpy as np
 import pandas as pd
 from scipy.stats import norm

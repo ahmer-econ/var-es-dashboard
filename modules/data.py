@@ -1,10 +1,6 @@
-import os
-os.chdir(r"D:\Documents\APPLIED ECONOMETRICS WORK\VaR-ES-Dashboard")
-
 import yfinance as yf
 import pandas as pd
 import numpy as np
-
 
 def load_data(ticker: str, start: str, end: str) -> pd.DataFrame:
     """

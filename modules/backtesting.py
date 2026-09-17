@@ -1,10 +1,6 @@
-import os
-os.chdir(r"D:\Documents\APPLIED ECONOMETRICS WORK\VaR-ES-Dashboard")
-
 import numpy as np
 import pandas as pd
 from scipy.stats import chi2
-
 
 def kupiec_pof(returns: pd.Series, var: float, confidence: float) -> dict:
     """
