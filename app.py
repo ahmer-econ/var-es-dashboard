@@ -1,6 +1,3 @@
-import os
-os.chdir(r"D:\Documents\APPLIED ECONOMETRICS WORK\VaR-ES-Dashboard")
-
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -15,14 +12,12 @@ from modules.backtesting import run_all_backtests
 from modules.plots import plot_price, plot_returns, plot_distribution, plot_garch_volatility
 from modules.interpretation import generate_interpretation
 
-# ── Page config ──────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="VaR & ES Risk Dashboard",
     page_icon="📊",
     layout="wide",
 )
 
-# ── Header ────────────────────────────────────────────────────────────────────
 st.title("📊 Value at Risk & Expected Shortfall Dashboard")
 st.markdown(
     "Interactive risk analysis using **Historical Simulation**, "
@@ -31,7 +26,6 @@ st.markdown(
 )
 st.divider()
 
-# ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
     st.header("⚙️ Parameters")
 
@@ -56,7 +50,6 @@ with st.sidebar:
         f"**Date:** {pd.Timestamp.today().strftime('%B %Y')}"
     )
 
-# ── Main panel ────────────────────────────────────────────────────────────────
 if not run:
     st.info("Configure parameters in the sidebar and click **▶ Run Analysis** to begin.")
     st.stop()
@@ -68,7 +61,6 @@ if start_date >= end_date:
 start_str = start_date.strftime("%Y-%m-%d")
 end_str   = end_date.strftime("%Y-%m-%d")
 
-# ── Data loading ──────────────────────────────────────────────────────────────
 with st.spinner(f"Downloading data for **{ticker}**..."):
     try:
         df = load_data(ticker, start_str, end_str)
@@ -80,7 +72,6 @@ if len(df) < 100:
     st.error("Fewer than 100 observations returned. Please widen the date range.")
     st.stop()
 
-# ── Section 1: Data Overview ──────────────────────────────────────────────────
 st.header("1 · Data Overview")
 
 col_l, col_r = st.columns([3, 1])
@@ -99,7 +90,6 @@ with col_r:
 
 st.divider()
 
-# ── Computation ───────────────────────────────────────────────────────────────
 with st.spinner("Running VaR / ES estimation..."):
     var_es_df = compute_all(df["Return"])
 
@@ -109,13 +99,10 @@ with st.spinner("Running backtests..."):
 with st.spinner("Fitting GARCH model..."):
     garch_params = get_garch_params(df["Return"])
 
-# ── Section 2: VaR / ES Results ───────────────────────────────────────────────
 st.header("2 · VaR / ES Results")
-
 st.markdown(
     "All values expressed as **proportion of portfolio value** (e.g. 0.017 = 1.7% loss)."
 )
-
 st.dataframe(
     var_es_df.style.format("{:.4f}"),
     use_container_width=True,
@@ -123,9 +110,7 @@ st.dataframe(
 
 st.divider()
 
-# ── Section 3: Risk Interpretation ───────────────────────────────────────────
 st.header("3 · Risk Interpretation")
-
 interpretation = generate_interpretation(
     ticker, var_es_df, backtest_df, garch_params, start_str, end_str
 )
@@ -133,7 +118,6 @@ st.markdown(interpretation)
 
 st.divider()
 
-# ── Section 4: Visualisations ─────────────────────────────────────────────────
 st.header("4 · Visualisations")
 
 col_a, col_b = st.columns(2)
@@ -152,7 +136,6 @@ with col_b:
 
 st.divider()
 
-# ── Section 5: Backtesting ────────────────────────────────────────────────────
 st.header("5 · Backtesting Results")
 
 def colour_result(val):
@@ -171,7 +154,6 @@ st.dataframe(styled_bt, use_container_width=True, hide_index=True)
 
 st.divider()
 
-# ── Download ──────────────────────────────────────────────────────────────────
 st.header("6 · Download Results")
 
 @st.cache_data
