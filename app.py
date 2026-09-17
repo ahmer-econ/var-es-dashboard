@@ -2,7 +2,8 @@ import os
 os.chdir(r"D:\Documents\APPLIED ECONOMETRICS WORK\VaR-ES-Dashboard")
 
 import sys
-sys.path.insert(0, r"D:\Documents\APPLIED ECONOMETRICS WORK\VaR-ES-Dashboard")
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import streamlit as st
 import pandas as pd
@@ -60,7 +61,6 @@ if not run:
     st.info("Configure parameters in the sidebar and click **▶ Run Analysis** to begin.")
     st.stop()
 
-# Validate dates
 if start_date >= end_date:
     st.error("Start date must be before end date.")
     st.stop()
@@ -116,7 +116,6 @@ st.markdown(
     "All values expressed as **proportion of portfolio value** (e.g. 0.017 = 1.7% loss)."
 )
 
-# Colour-code pass/fail in backtest later; show plain results table here
 st.dataframe(
     var_es_df.style.format("{:.4f}"),
     use_container_width=True,
